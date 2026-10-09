@@ -1,21 +1,21 @@
-import streamlit as st 
-import pandas as pd 
+import streamlit as st
+import pandas as pd
 import joblib
-import os
 
-# Debug
-st.write("Current folder:", os.getcwd())
-st.write("Files found:", os.listdir())
-
+# Load the trained model, the scaler and the expected column names
 model = joblib.load("KNN_model.pkl")
 scaler = joblib.load("scaler.pkl")
 expected_columns = joblib.load("columns.pkl")
 
-st.title("Heart Stroke Prediction")
-st.markdown("Provide following details")
+st.title("Heart Disease Risk Prediction")
+st.markdown("Provide the following details")
+st.caption(
+    "This is a learning project, not a medical tool. "
+    "Please do not use it to make health decisions."
+)
 
 age = st.slider("Age", 18, 100, 40)
-sex = st.selectbox("SEX", ['M', 'F'])
+sex = st.selectbox("Sex", ['M', 'F'])
 chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"])
 resting_bp = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
 cholesterol = st.number_input("Cholesterol (mg/dl)", 100, 600, 200)
@@ -43,6 +43,7 @@ if st.button("Predict"):
 
     input_df = pd.DataFrame([raw_input])
 
+    # Add any columns the model expects but the user did not trigger, as 0
     for col in expected_columns:
         if col not in input_df.columns:
             input_df[col] = 0
