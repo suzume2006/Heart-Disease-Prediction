@@ -35,6 +35,7 @@ streamlit run app.py
 ## Model details
 
 - Model: K-Nearest Neighbors
+- Test accuracy: 0.88
 
 
 ## Important
